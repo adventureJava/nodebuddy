@@ -1,0 +1,451 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+a {
+  text-decoration: none; /* 밑줄 제거 */
+  color: inherit; /* 링크 색상을 상속받도록 설정 (부모 요소의 색상 사용) */
+}
+.btn {
+  display: inline-block;
+  padding: 0 5px;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 4px;
+  background: white;
+  border: 1px solid silver;
+  color: crimson;
+  height: 37px;
+  line-height: 37px;
+  vertical-align: top;
+  font-size: 12px;
+  position: relative;
+}
+.searchbtn {
+  display: inline-block;
+  padding: 0 5px;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 4px;
+  background: white;
+  border: 1px solid silver;
+  color: green;
+  height: 37px;
+  line-height: 37px;
+  vertical-align: top;
+  font-size: 12px;
+}
+input[type='text'], input[type='email'], input[type='password'], textarea {
+  border-radius: 4px;
+  height: 37px;
+  padding: 10px;
+  border: 1px solid silver;
+}
+.container { width: 100%; height: 100%; }
+@media screen and (min-width: 800px) {
+  .container { width: 800px; margin: 0 auto; }
+}
+.input-group { margin-bottom: 15px; }
+.input-group label { width: 25%; display: inline-block; }
+.input-group input { width: 70%; }
+.half { float: left; width: 50%; margin: 10px 0; }
+#join { float: right; }
+.profile-wrap {
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px 0;
+}
+@media screen and (min-width: 800px) {
+  .profile-wrap { width: 290px; margin-bottom: 0; }
+}
+.profile,.user-dm {
+  text-align: left;
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+  border: 1px solid silver;
+  background: lightcoral;
+}
+.user-dm {
+  margin-top: 20px;
+}
+.user-name { font-weight: bold; font-size: 18px; }
+.count { font-weight: bold; color: crimson; font-size: 18px; }
+.timeline {
+  margin-top: 10px;
+  width: 100%;
+  display: inline-block;
+  border-radius: 4px;
+  vertical-align: top;
+}
+@media screen and (min-width: 800px) { .timeline { width: 500px; } }
+#twit-form {
+  border-bottom: 1px solid silver;
+  padding: 10px;
+  background: lightcoral;
+  overflow: hidden;
+}
+#img-preview { max-width: 100%; }
+#img-label {
+  float: left;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid crimson;
+  padding: 0 10px;
+  color: white;
+  font-size: 12px;
+  height: 37px;
+  line-height: 37px;
+}
+#img { display: none; }
+#twit { width: 100%; min-height: 72px; }
+#twit-btn {
+  float: right;
+  color: white;
+  background: crimson;
+  border: none;
+}
+.twit {
+  border: 1px solid silver;
+  border-radius: 4px;
+  padding: 10px;
+  position: relative;
+  margin-bottom: 10px;
+}
+.twit-author { display: inline-block; font-weight: bold; margin-right: 10px; }
+.twit-follow {
+  padding: 1px 5px;
+  background: #fff;
+  border: 1px solid blue;
+  border-radius: 5px;
+  color: blue;
+  font-size: 12px;
+  cursor: pointer;
+}
+.twit-removefollow {
+  padding: 1px 5px;
+  background: #fff;
+  border: 1px solid silver;
+  border-radius: 5px;
+  color: black;
+  font-size: 12px;
+  cursor: pointer;
+}
+.twit-img { text-align: center; }
+.twit-img img { max-width: 75%; }
+.error-message { color: red; font-weight: bold; }
+#search-form { text-align: right; }
+#join-form { padding: 10px; text-align: center; }
+#hashtag-form { text-align: right; }
+footer { text-align: center; }
+button.twit-like {
+  color: white;                /* 글씨색 흰색 */
+  font-weight: bold;           /* 글씨를 진하게 */
+  background-color: rgb(159, 194, 255);   /* 배경색 하늘색 */
+  border-radius: 10px;         /* 모서리 둥글게 */
+  border: 2px solid rgb(96, 144, 230);      /* 테두리 파란색 */
+  padding: 10px;
+  cursor: pointer;             /* 커서를 포인터로 변경 */
+  font-size: 12px;             /* 글씨 크기 */
+  transition: background-color 0.3s ease; /* 배경색 변경 시 부드럽게 */
+}
+button.twit-liked {
+  color: rgb(96, 144, 230);               
+  font-weight: bold;           /* 글씨를 진하게 */
+  background-color: rgb(159, 194, 255);   /* 배경색 하늘색 */
+  border-radius: 10px;         /* 모서리 둥글게 */
+  border: 2px solid rgb(96, 144, 230);      /* 테두리 파란색 */
+  padding: 10px;
+  cursor: pointer;             /* 커서를 포인터로 변경 */
+  font-size: 12px;             /* 글씨 크기 */
+  transition: background-color 0.3s ease; /* 배경색 변경 시 부드럽게 */
+}
+.twit-remove {
+  padding: 1px 5px;
+  background: #fff;
+  border: 1px solid silver;
+  border-radius: 5px;
+  color: crimson;
+  font-size: 12px;
+  cursor: pointer;
+  float: right;
+}
+button.twit-like:hover {
+  background-color: deepskyblue;  /* 마우스를 올리면 배경색을 더 진한 하늘색으로 */
+}
+button.twit-reply {
+  color: white;               
+  font-weight: bold;           /* 글씨를 진하게 */
+  background-color: rgb(9, 134, 15);   
+  border-radius: 10px;         /* 모서리 둥글게 */
+  border: 2px solid rgb(96, 230, 147);      /* 테두리 파란색 */
+  padding: 10px;
+  cursor: pointer;             /* 커서를 포인터로 변경 */
+  font-size: 12px;             /* 글씨 크기 */
+  transition: background-color 0.3s ease; /* 배경색 변경 시 부드럽게 */
+}
+button.twit-reply:hover {
+  background-color: rgb(16, 65, 1);  /* 마우스를 올리면 배경색을 더 진한색으로 */
+}
+a.twit-dm {
+  color: white;                /* 텍스트 색상 흰색 */
+  font-weight: bold;           /* 텍스트를 굵게 설정 */
+  background-color: rgb(255, 194, 159); /* 기본 배경색 */
+  border-radius: 10px;         /* 모서리를 둥글게 설정 */
+  border: 2px solid rgb(217, 230, 96);  /* 테두리를 노란색 계열로 설정 */
+  padding: 10px;               /* 내부 여백을 설정 */
+  cursor: pointer;             /* 마우스를 올리면 포인터로 변경 */
+  font-size: 12px;             /* 텍스트 크기 설정 */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 배경색과 그림자 변화에 애니메이션 추가 */
+}
+
+a.twit-dm:hover {
+  background-color: rgb(255, 166, 107); /* 마우스를 올렸을 때 배경색 변경 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 마우스를 올렸을 때 그림자 추가 */
+  color: white; /* 텍스트 색상 유지 */
+}
+
+/* 팔로잉 및 팔로워 목록 스타일 */
+.timeline .half {
+  width: 48%; /* 양쪽 목록이 균형을 이루도록 */
+  padding: 10px;
+  border: 1px solid #ddd; /* 경계선 추가 */
+  border-radius: 8px; /* 모서리 둥글게 */
+  background-color: #fafafa; /* 배경색 변경 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+}
+
+/* 제목 스타일 */
+.timeline h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #333; /* 제목 색상 */
+}
+
+/* 목록 항목 스타일 */
+.timeline .half div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0; /* 항목 간 경계선 색상 변경 */
+  margin-bottom: 5px;
+  background-color: #ffffff; /* 항목 배경색 */
+}
+
+/* 목록 항목 마지막 경계선 제거 */
+.timeline .half div:last-child {
+  border-bottom: none;
+}
+
+/* 링크 스타일 */
+.follow_id{
+  color: #007bff; /* 링크 색상 */
+  text-decoration: none; /* 링크 밑줄 제거 */
+  font-weight: bold; /* 링크 글자 두껍게 */
+}
+
+.timeline a:hover {
+  text-decoration: underline; /* 마우스 호버 시 밑줄 추가 */
+}
+
+.dm-box {
+  display: flex;
+  flex-direction: column;
+  height: 700px; /* 원하는 높이로 설정 */
+  border: 1px solid #ddd; /* 테두리 추가 */
+  border-radius: 10px;
+  overflow-y: auto; /* 스크롤 생기게 */
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+#messageBox {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+  word-wrap: break-word;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.sent {
+  background-color: #daf8e3; /* 자신이 보낸 메시지 배경색 */
+  align-self: flex-end;
+  align-items: flex-end; /* 오른쪽 정렬 */
+}
+
+.received {
+  background-color: #f1f0f0; /* 상대방이 보낸 메시지 배경색 */
+  align-self: flex-start;
+  align-items: flex-start; /* 왼쪽 정렬 */
+}
+
+.message-info {
+  font-size: 14px;  /* 닉네임 글씨 크기 */
+  font-weight: bold; /* 닉네임을 굵게 표시 */
+}
+
+.message-content {
+  font-size: 16px;  /* 메시지 내용 글씨 크기 */
+  margin-top: 5px;
+}
+
+.message-time {
+  font-size: 12px;  /* 시간 글씨 크기 */
+  color: gray;
+  text-align: right;
+  margin-top: 5px;
+}
+
+.dm_btn {
+  display: inline-block;
+  padding: 0 30px;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 4px;
+  background: white;
+  border: 1px solid silver;
+  color: crimson;
+  height: 37px;
+  line-height: 37px;
+  vertical-align: top;
+  font-size: 12px;
+  position: relative;
+}
+
+.badge {
+  background: blue; /* 배경 색상 파란색 */
+  color: white; /* 글씨 색상 흰색 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  padding: 0 10px; /* 배지 내부 여백 */
+  top: 23px;
+  right: 0px;
+  margin: 5px 0 0 0;
+  border-radius: 14px;
+  position: absolute; /* 배지 위치 조정 */
+  font-size: 12px; /* 배지 글씨 크기 조정 */
+  border: none;
+  line-height: 1; /* 텍스트의 위아래 여백 최소화 */
+}
+
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);  
+}
+.reply_write{
+  text-align: center;
+}
+
+.nested-replies{
+  display: none;
+  position: relative;
+  left: 50px;
+}
+.reply_list{
+  position: relative;
+  left: 20px;
+}
+.reply-nested-view{
+  position: relative;
+  left: 100px;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /*스크롤 생기게*/  
+}
+
+.modal-content h4{
+  text-align: center;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.reply-nested-view {
+  color: rgba(6, 146, 231);  
+  background-color: transparent;
+  border: none;                 
+  cursor: pointer;              
+  padding: 5px 10px;            
+}
+
+.tag_nick{
+  color: rgba(6, 146, 231);
+}
+
+.reply_nick{
+  font-weight: bold;
+}
+.reply-remove{
+    padding: 9px;
+    background: #fff;
+    border: 1px solid silver;
+    border-radius: 5px;
+    color: crimson;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.reply-nested{
+    color: white;
+    font-weight: bold;
+    background-color: rgb(9, 134, 15);
+    border-radius: 10px;
+    border: 2px solid rgb(96, 230, 147);
+    padding: 9px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.reply_signup, .reply-nested_signup, #sendMessage{  
+  background-color: rgba(6, 146, 231);
+  color: white;
+  padding: 9px;
+}
+
+#sendMessage{ 
+  position: relative;
+
+}
+
+#messageInput{
+  height: 38px;
+  width: 440px;
+}

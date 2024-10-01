@@ -1,0 +1,80 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <div class="timeline">
+    <div class="followings half">
+      <h2>팔로잉 목록</h2>
+      {% if user.Followings %}
+        {% for following in user.Followings %}
+          <div><a class="follow_id" href="{{following.id}}/go">{{following.nick}}</a>
+          {% if not followerIdList.includes(following.id) and following.id !== user.id %}
+              <button class="twit-follow">팔로우하기</button>
+            {% endif %}
+            {% if followerIdList.includes(following.id) and following.id !== user.id %}
+              <button class="twit-removefollow">팔로우 끊기</button>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+    <div class="followers half">
+      <h2>팔로워 목록</h2>
+      {% if user.Followers %}
+        {% for follower in user.Followers %}
+          <div><a class="follow_id" href="{{follower.id}}/go">{{follower.nick}}</a>
+          {% if not followerIdList.includes(follower.id) and follower.id !== user.id %}
+            <button class="twit-follow" data-f-id="{{follower.id}}">팔로우하기</button>
+          {% endif %}
+          {% if followerIdList.includes(follower.id) and follower.id !== user.id %}
+            <button class="twit-removefollow" data-f-id="{{follower.id}}">팔로우 끊기</button>
+          {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+<script>
+  document.querySelectorAll('.twit-follow').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id');
+        if (myId) {
+          const userId = tag.getAttribute('data-f-id');
+          if (userId !== myId.value) {
+            if (confirm('팔로잉하시겠습니까?')) {
+              axios.post(`/user/${userId}/follow`)
+                .then(() => {
+                  location.reload();
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
+            }
+          }
+        }
+      });
+    });
+
+    document.querySelectorAll('.twit-removefollow').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id');
+        if (myId) {
+          const userId = tag.getAttribute('data-f-id');
+          if (userId !== myId.value) {
+            if (confirm('팔로잉을 끊으시겠습니까?')) {
+              axios.post(`/user/${userId}/removefollow`)
+                .then(() => {
+                  location.reload();
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
+            }
+          }
+        }
+      });
+    });
+</script>
+{% endblock %}

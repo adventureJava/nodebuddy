@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="timeline">
+  <div class="dm-box">
+    <h3>Direct Message with {{ otherUser.nick }}</h3>
+    <div id="messageBox">
+      {% for message in messages %}
+      <div class="message 
+        {% if message.senderId == user.id %} 
+          sent 
+        {% else %} 
+          received 
+        {% endif %}"
+      >
+        <div class="message-info">
+          <strong>
+            {% if message.senderId == user.id %} 
+              {{ user.nick }} <!-- 자신이 보낸 메시지 -->
+            {% else %} 
+              {{ otherUser.nick }} <!-- 상대방이 보낸 메시지 -->
+            {% endif %}
+          </strong>
+        </div>
+        <div class="message-content">{{ message.message }}</div>
+        <div class="message-time">{{ message.createdAt | date('YYYY-MM-DD HH:mm:ss') }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <input type="hidden" id="myId" value="{{ user.id }}">
+  <input type="hidden" id="otherUserId" value="{{ otherUser.id }}">
+  <input id="messageInput" placeholder="메시지를 입력하세요">
+  <button id="sendMessage">전송</button>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  const myId = document.getElementById('myId').value;
+  const otherUserId = document.getElementById('otherUserId').value;
+
+  // DM 방에 입장
+  socket.emit('joinRoom', { senderId: myId, receiverId: otherUserId });
+
+  // 메시지 전송
+  document.getElementById('sendMessage').addEventListener('click', () => {
+    const message = document.getElementById('messageInput').value;
+
+    // POST 요청으로 메시지 서버로 전송하여 저장
+    fetch('/dms/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        senderId: myId,
+        receiverId: otherUserId,
+        message,
+      }),
+    }).then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // 서버에서 메시지를 다시 받아서 화면에 추가
+          socket.emit('sendMessage', { senderId: myId, receiverId: otherUserId, message });
+          document.getElementById('messageInput').value = ''; // 입력창 비우기
+        }
+      });
+  });
+
+  // 새로운 메시지 수신
+  socket.on('receiveMessage', ({ senderId, message, createdAt }) => {
+    if(senderId === otherUserId){
+      fetch('/dms/receive_check', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        senderId: senderId,
+        receiverId: myId,
+      }),
+    }).then(response => {
+    if (!response.ok) {
+      throw new Error('서버 응답 실패');
+    }
+    return response.json();
+    }).then(data => {
+    if (data.success) {
+      console.log('receiver_check 업데이트 성공');
+    } else {
+      console.error('업데이트 실패');
+    }
+      });
+      
+    }
+    
+    const messageBox = document.getElementById('messageBox');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = senderId === myId ? 'message sent' : 'message received';
+    messageDiv.innerHTML = `
+      <div class="message-info">
+        <strong>${senderId === myId ? '{{ user.nick }}' : '{{ otherUser.nick }}'}</strong>
+      </div>
+      <div class="message-content">${message}</div>
+      <div class="message-time">${new Date(createdAt).toLocaleString()}</div>
+    `;
+    messageBox.appendChild(messageDiv);
+    messageBox.scrollTop = messageBox.scrollHeight; // 스크롤을 가장 아래로 이동
+  });
+</script>
+{% endblock %}
